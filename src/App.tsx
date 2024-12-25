@@ -45,7 +45,10 @@ function App() {
       <h3 css={appCss.h3}>The Current Unix Timestamp</h3>
       <p css={appCss.p}>{currentUnixTimestamp}</p>
       <button onClick={handleClickButton}>Copy</button>
-      <div {...(isVisibleCopiedText ? { className: 'visible' } : null)} css={appCss.copied}>
+      <div
+        {...(isVisibleCopiedText ? { className: 'visible' } : null)}
+        css={appCss.copied}
+      >
         {copiedText}
       </div>
     </>
