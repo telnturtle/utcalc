@@ -2,12 +2,14 @@
   --font-size-heading: 44px;
   --font-size-body: 32px;
   --font-size-caption: 20px;
+  --font-size-caption-small: 14px;
 }
 @media (min-width: 769px) {
   :root {
     --font-size-heading: 52px;
     --font-size-body: 40px;
     --font-size-caption: 28px;
+    --font-size-caption-small: 22px;
   }
 }
 :root {

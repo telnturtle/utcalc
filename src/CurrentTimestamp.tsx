@@ -18,7 +18,7 @@ const currentUnixTimestampCss = {
     visibility: hidden;
   `,
 }
-function CurrentUnixTimestamp() {
+export function CurrentUnixTimestamp() {
   const currentUnixTimestamp = dayjs().unix()
 
   const { forceUpdate } = useForceUpdate()
@@ -53,5 +53,3 @@ function CurrentUnixTimestamp() {
     </>
   )
 }
-
-export default CurrentUnixTimestamp
