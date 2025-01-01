@@ -1,34 +1,47 @@
+import { css } from '@emotion/react'
 import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import './App.css'
 import { ConvertTimestamp } from './ConvertTimestamp'
-import { CurrentUnixTimestamp } from './CurrentTimestamp'
 import { CurrentTime } from './CurrentTime'
-import { css } from '@emotion/react'
+import { CurrentUnixTimestamp } from './CurrentTimestamp'
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(relativeTime)
 
 function App() {
   return (
     <>
-      <CurrentUnixTimestamp />
-      <CurrentTime />
-      <Seperator />
-      {/* <ConvertTimestamp /> */}
+      <NormalGap>
+        <CurrentUnixTimestamp />
+      </NormalGap>
+      <NormalGap>
+        <ConvertTimestamp />
+      </NormalGap>
     </>
   )
 }
 
 export default App
 
-function Seperator() {
+function NormalGap({ children }: { children: React.ReactNode }) {
   return (
     <div
       css={css`
-        width: 1px;
-        height: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 98svh;
+        gap: 1rem;
+        & > * {
+          margin: 0;
+        }
       `}
-    />
+    >
+      {children}
+    </div>
   )
 }
