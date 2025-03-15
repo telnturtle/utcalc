@@ -1,19 +1,22 @@
 :root {
-  --font-size-heading: 44px;
-  --font-size-body: 32px;
-  --font-size-caption: 20px;
+  --font-size-heading: 32px;
+  --font-size-body: 20px;
+  --font-size-caption: 12px;
 }
 @media (min-width: 769px) {
   :root {
-    --font-size-heading: 52px;
-    --font-size-body: 40px;
-    --font-size-caption: 28px;
+    --font-size-heading: 40px;
+    --font-size-body: 28px;
+    --font-size-caption: 20px;
+    /* --font-size-heading: 44px;
+    --font-size-body: 32px;
+    --font-size-caption: 24px; */
   }
 }
 :root {
   font-family: 'Noto Serif', serif;
   font-optical-sizing: auto;
-  font-style: normal;
+  font-style: var(--font-size_body);
   font-variation-settings:
     "wdth" 100;
 
@@ -29,12 +32,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-@media (min-width: 769px) {
-  :root {
-    font-size: 40px;
-  }
 }
 
 a {
@@ -89,4 +86,8 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+* {
+  margin: 0;
 }

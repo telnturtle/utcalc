@@ -1,24 +1,36 @@
-import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
-import { useForceUpdate } from './util/forceUpdate'
 import { css } from '@emotion/react'
+import dayjs from 'dayjs'
+import { useEffect, useRef } from 'react'
+import { useForceUpdate } from './util/forceUpdate'
+import { Wrapper } from './Wrapper'
 
 const currentUnixTimestampCss = {
   h3: css`
     font-weight: 300;
+    font-size: var(--font-size-heading);
   `,
   p: css`
     font-weight: bold;
+    font-size: var(--font-size-body);
   `,
-  copied: css`
-    font-size: var(--font-size-caption);
-    &.visible {
-      visibility: visible;
+  copyButton: css`
+    position: relative;
+    font-size: var(--font-size-body);
+    &.copied::after {
+      content: 'Copied!';
+      color: #646cff;
+      font-size: 0.8em;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 0.2rem;
     }
-    visibility: hidden;
   `,
 }
 function CurrentUnixTimestamp() {
+  const csss = currentUnixTimestampCss
+
   const currentUnixTimestamp = dayjs().unix()
 
   const { forceUpdate } = useForceUpdate()
@@ -30,27 +42,29 @@ function CurrentUnixTimestamp() {
     return () => clearInterval(interval)
   }, [forceUpdate])
 
-  const initialCopiedText = '.'
-  const [copiedText, setCopiedText] = useState<string>(initialCopiedText)
-  const isVisibleCopiedText = copiedText !== initialCopiedText
+  const copyButtonEl = useRef<HTMLButtonElement>(null)
+
+  const copiedTimer: { timer: undefined | number } = {
+    timer: undefined,
+  }
 
   const handleClickButton = () => {
     navigator.clipboard.writeText(currentUnixTimestamp.toString())
-    setCopiedText(`${currentUnixTimestamp} copied!`)
+    copyButtonEl.current?.classList.add('copied')
+    clearTimeout(copiedTimer.timer)
+    copiedTimer.timer = setTimeout(() => {
+      copyButtonEl.current?.classList.remove('copied')
+    }, 2000)
   }
 
   return (
-    <>
-      <h3 css={currentUnixTimestampCss.h3}>The Current Unix Timestamp</h3>
-      <p css={currentUnixTimestampCss.p}>{currentUnixTimestamp}</p>
-      <button onClick={handleClickButton}>Copy</button>
-      <div
-        {...(isVisibleCopiedText ? { className: 'visible' } : null)}
-        css={currentUnixTimestampCss.copied}
-      >
-        {copiedText}
-      </div>
-    </>
+    <Wrapper>
+      <h3 css={csss.h3}>The Current Unix Timestamp</h3>
+      <p css={csss.p}>{currentUnixTimestamp}</p>
+      <button ref={copyButtonEl} onClick={handleClickButton} css={csss.copyButton}>
+        Copy
+      </button>
+    </Wrapper>
   )
 }
 
