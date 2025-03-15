@@ -5,14 +5,6 @@ import { useForceUpdate } from './util/forceUpdate'
 import { Wrapper } from './Wrapper'
 
 const currentUnixTimestampCss = {
-  h3: css`
-    font-weight: 300;
-    font-size: var(--font-size-heading);
-  `,
-  p: css`
-    font-weight: bold;
-    font-size: var(--font-size-body);
-  `,
   copyButton: css`
     position: relative;
     font-size: var(--font-size-body);
@@ -32,6 +24,7 @@ function CurrentUnixTimestamp() {
   const csss = currentUnixTimestampCss
 
   const currentUnixTimestamp = dayjs().unix()
+  const isoString = dayjs().toISOString().slice(0, -5)
 
   const { forceUpdate } = useForceUpdate()
 
@@ -59,11 +52,13 @@ function CurrentUnixTimestamp() {
 
   return (
     <Wrapper>
-      <h3 css={csss.h3}>The Current Unix Timestamp</h3>
-      <p css={csss.p}>{currentUnixTimestamp}</p>
+      <h3>The Current Unix Timestamp</h3>
+      <p>{currentUnixTimestamp}</p>
       <button ref={copyButtonEl} onClick={handleClickButton} css={csss.copyButton}>
         Copy
       </button>
+      <h3>The Current Time</h3>
+      <p>{isoString}</p>
     </Wrapper>
   )
 }
