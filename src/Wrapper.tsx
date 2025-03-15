@@ -15,6 +15,9 @@ const wrapperCss = {
       font-weight: bold;
       font-size: var(--font-size-body);
     }
+    &:not(last-child) {
+      margin-top: 1rem;
+    }
   `,
   h3: css``,
   p: css``,
