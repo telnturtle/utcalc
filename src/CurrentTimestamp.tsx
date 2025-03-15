@@ -20,7 +20,7 @@ const currentUnixTimestampCss = {
     }
   `,
 }
-function CurrentUnixTimestamp() {
+export function CurrentUnixTimestamp() {
   const csss = currentUnixTimestampCss
 
   const currentUnixTimestamp = dayjs().unix()
@@ -62,5 +62,3 @@ function CurrentUnixTimestamp() {
     </Wrapper>
   )
 }
-
-export default CurrentUnixTimestamp

@@ -1,5 +1,5 @@
 import './App.css'
-import CurrentUnixTimestamp from './CurrentTimestamp'
+import { CurrentUnixTimestamp } from './CurrentTimestamp'
 
 function App() {
   return (
