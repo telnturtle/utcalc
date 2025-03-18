@@ -87,7 +87,7 @@ Error generating stack: `+i.message+`
   padding: 4px 8px;
   margin: 0 -12px;
   opacity: 0.3;
-`};function hi({unit:o,format:a}){const s=yh,[h,y]=Ue.useState(0),S=Ze().add(h,o);return dt("tr",{children:[dt("th",{children:[b("button",{css:s.button,onClick:()=>y(T=>T-1),children:"🠈"}),S.format(a),b("button",{css:s.button,onClick:()=>y(T=>T+1),children:"🠊"})]}),b("td",{children:S.startOf(o).unix()}),b("td",{children:S.endOf(o).unix()})]})}function gh(){return dt(Jp,{children:[b("header",{children:b("h1",{css:fn`
+`};function hi({unit:o,format:a}){const s=yh,[h,y]=Ue.useState(0),S=Ze().add(h,o);return dt("tr",{children:[dt("th",{children:[b("button",{css:s.button,onClick:()=>y(T=>T-1),children:"←"}),S.format(a),b("button",{css:s.button,onClick:()=>y(T=>T+1),children:"→"})]}),b("td",{children:S.startOf(o).unix()}),b("td",{children:S.endOf(o).unix()})]})}function gh(){return dt(Jp,{children:[b("header",{children:b("h1",{css:fn`
             font-size: calc(8px + var(--font-size-heading));
             margin-top: calc(1 * var(--font-size-heading));
             margin-bottom: calc(1 / 2 * var(--font-size-heading));
