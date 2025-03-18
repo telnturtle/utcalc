@@ -24,7 +24,7 @@ export function CurrentUnixTimestamp() {
   const csss = currentUnixTimestampCss
 
   const currentUnixTimestamp = dayjs().unix()
-  const isoString = dayjs().toISOString().slice(0, -5)
+  const isoString = dayjs().format('YYYY-MM-DDTHH:mm:ss')
 
   const { forceUpdate } = useForceUpdate()
 
@@ -62,6 +62,8 @@ export function CurrentUnixTimestamp() {
       <h3>The Current Timezone</h3>
       <p>{Intl.DateTimeFormat().resolvedOptions().timeZone}</p>
       <p>{dayjs().format('Z')}</p>
+      <h3>The Current UTC</h3>
+      <p>{dayjs().utc().format('YYYY-MM-DDTHH:mm:ss')}</p>
     </Wrapper>
   )
 }
