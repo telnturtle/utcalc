@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import dayjs from 'dayjs'
-import { useEffect, useRef } from 'react'
-import { useForceUpdate } from './util/forceUpdate'
+import { useRef } from 'react'
+import { usePeriodicForceUpdate } from './util/forceUpdate'
 import { Wrapper } from './Wrapper'
 
 const currentUnixTimestampCss = {
@@ -26,14 +26,7 @@ export function CurrentUnixTimestamp() {
   const currentUnixTimestamp = dayjs().unix()
   const isoString = dayjs().format('YYYY-MM-DDTHH:mm:ss')
 
-  const { forceUpdate } = useForceUpdate()
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      forceUpdate()
-    }, 500)
-    return () => clearInterval(interval)
-  }, [forceUpdate])
+  usePeriodicForceUpdate(500)
 
   const copyButtonEl = useRef<HTMLButtonElement>(null)
 
