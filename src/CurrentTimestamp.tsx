@@ -59,6 +59,9 @@ export function CurrentUnixTimestamp() {
       </button>
       <h3>The Current Time</h3>
       <p>{isoString}</p>
+      <h3>The Current Timezone</h3>
+      <p>{Intl.DateTimeFormat().resolvedOptions().timeZone}</p>
+      <p>{dayjs().format('Z')}</p>
     </Wrapper>
   )
 }
