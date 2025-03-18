@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import dayjs from 'dayjs'
+import { useState } from 'react'
 import { Wrapper } from './Wrapper'
 
 export function StartOf() {
@@ -42,8 +43,62 @@ export function StartOf() {
             <td>{dayjs().startOf('day').unix()}</td>
             <td>{dayjs().endOf('day').unix()}</td>
           </tr>
+          <Year />
+          <Month />
+          <Week />
+          <Day />
         </tbody>
       </table>
     </Wrapper>
+  )
+}
+
+function Year() {
+  return <Controller unit="year" format="YYYY" />
+}
+function Month() {
+  return <Controller unit="month" format="YYYY-MM" />
+}
+function Week() {
+  // format: 2016-W43
+  // see https://ko.wikipedia.org/wiki/ISO_8601
+  return <Controller unit="week" format="YYYY-[W]ww" />
+}
+function Day() {
+  return <Controller unit="day" format="YYYY-MM-DD" />
+}
+type ControllerProps = {
+  unit: 'year' | 'month' | 'week' | 'day'
+  format: string
+}
+const controllerCss = {
+  button: css`
+  padding: 4px 8px;
+  margin: 0 -12px;
+  opacity: 0.3;
+`
+}
+function Controller({ unit, format }: ControllerProps) {
+  const csss = controllerCss
+  const [offset, setOffset] = useState(0)
+  const time = dayjs().add(offset, unit)
+  return (
+    <tr>
+      <th>
+        {/* the previous button, use symbol or emoji */}
+        <button css={csss.button} onClick={() => setOffset((offset) => offset - 1)}>
+          {/* ⬅️←⬅🠜 */}
+          🠈
+        </button>
+        {time.format(format)}
+        {/* the next button, use symbol or emoji */}
+        <button css={csss.button} onClick={() => setOffset((offset) => offset + 1)}>
+          {/* ➡️→➡🠞 */}
+          🠊
+        </button>
+      </th>
+      <td>{time.startOf(unit).unix()}</td>
+      <td>{time.endOf(unit).unix()}</td>
+    </tr>
   )
 }
