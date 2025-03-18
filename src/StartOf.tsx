@@ -1,20 +1,8 @@
 import { css } from '@emotion/react'
 import dayjs from 'dayjs'
-import { useEffect } from 'react'
-import { useForceUpdate } from './util/forceUpdate'
 import { Wrapper } from './Wrapper'
 
 export function StartOf() {
-  const { forceUpdate } = useForceUpdate()
-
-  // Auto update every 500ms
-  useEffect(() => {
-    const interval = setInterval(() => {
-      forceUpdate()
-    }, 500)
-    return () => clearInterval(interval)
-  }, [forceUpdate])
-
   return (
     <Wrapper>
       <h3>Start of / End of ...</h3>
