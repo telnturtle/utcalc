@@ -12,6 +12,10 @@ export function StartOf() {
           width: 100%;
           th {
             text-align: left;
+            font-weight: 300;
+          }
+          td {
+            font-weight: 700;
           }
         `}
       >
