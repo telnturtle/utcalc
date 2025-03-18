@@ -92,13 +92,15 @@ function Controller({ unit, format }: ControllerProps) {
         {/* the previous button, use symbol or emoji */}
         <button css={csss.button} onClick={() => setOffset((offset) => offset - 1)}>
           {/* ⬅️←⬅🠜 */}
-          🠈
+          {/* 🠈 */}
+          ←
         </button>
         {time.format(format)}
         {/* the next button, use symbol or emoji */}
         <button css={csss.button} onClick={() => setOffset((offset) => offset + 1)}>
           {/* ➡️→➡🠞 */}
-          🠊
+          {/* 🠊 */}
+          →
         </button>
       </th>
       <td>{time.startOf(unit).unix()}</td>
