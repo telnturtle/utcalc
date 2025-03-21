@@ -14,7 +14,7 @@
   }
 }
 :root {
-  font-family: 'Noto Serif', serif;
+  font-family: 'Noto Serif', 'Noto Serif KR', serif;
   font-optical-sizing: auto;
   font-style: var(--font-size_body);
   font-variation-settings:

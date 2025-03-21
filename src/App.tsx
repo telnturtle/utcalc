@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import './App.css'
 import { CurrentUnixTimestamp } from './CurrentTimestamp'
 import { StartOf } from './StartOf'
+import { TimestampToTime } from './TimestampToTime'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       </header>
       <CurrentUnixTimestamp />
       <StartOf />
+      <TimestampToTime />
       <footer
         css={css`
           margin-top: calc(2 * var(--font-size-heading));
