@@ -2,11 +2,14 @@ import { css } from '@emotion/react'
 import dayjs from 'dayjs'
 import { useState } from 'react'
 import { Wrapper } from './Wrapper'
+import { usePeriodicForceUpdate } from './util/forceUpdate'
 
 export function StartOf() {
+  usePeriodicForceUpdate(500)
+
   return (
     <Wrapper>
-      <h3>Start of / End of ...</h3>
+      <h2>Start of / End of ...</h2>
       <table
         css={css`
           width: 100%;

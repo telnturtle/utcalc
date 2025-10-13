@@ -45,18 +45,18 @@ export function CurrentUnixTimestamp() {
 
   return (
     <Wrapper>
-      <h3>The Current Unix Timestamp</h3>
+      <h2>The Current Unix Timestamp</h2>
       <p>{currentUnixTimestamp}</p>
       <button ref={copyButtonEl} onClick={handleClickButton} css={csss.copyButton}>
         Copy
       </button>
-      <h3>The Current Time</h3>
+      <h2>The Current Time</h2>
       <p>{isoString}</p>
-      <h3>The Current Timezone</h3>
+      <h2>The Current UTC</h2>
+      <p>{dayjs().utc().format('YYYY-MM-DDTHH:mm:ss')}</p>
+      <h2>The Timezone</h2>
       <p>{Intl.DateTimeFormat().resolvedOptions().timeZone}</p>
       <p>{dayjs().format('Z')}</p>
-      <h3>The Current UTC</h3>
-      <p>{dayjs().utc().format('YYYY-MM-DDTHH:mm:ss')}</p>
     </Wrapper>
   )
 }

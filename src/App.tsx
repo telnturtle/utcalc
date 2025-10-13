@@ -10,10 +10,8 @@ function App() {
       <header>
         <h1
           css={css`
-            font-size: calc(8px + var(--font-size-heading));
             margin-top: calc(1 * var(--font-size-heading));
             margin-bottom: calc(1 / 2 * var(--font-size-heading));
-            font-weight: 100;
           `}
         >
           Unix Timestamp Calculator

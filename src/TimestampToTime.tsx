@@ -1,9 +1,11 @@
+import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { useState } from 'react'
+import { usePeriodicForceUpdate } from './util/forceUpdate'
 import { Wrapper } from './Wrapper'
-import clsx from 'clsx'
 
 export function TimestampToTime() {
+  usePeriodicForceUpdate(500)
   const [value, setValue] = useState(loadInputValue())
   setTimeout(() => {
     storeInputValue(value)
@@ -37,7 +39,7 @@ export function TimestampToTime() {
 
   return (
     <Wrapper>
-      <h3>Timestamp to Time</h3>
+      <h2>Timestamp to Time</h2>
       <input
         value={value}
         onChange={(e) => {
