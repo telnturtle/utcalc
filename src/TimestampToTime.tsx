@@ -2,10 +2,14 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { usePeriodicForceUpdate } from './util/forceUpdate'
+import { useT } from './util/language'
+import { useOffsetHours } from './util/timeOffset'
 import { Wrapper } from './Wrapper'
 
 export function TimestampToTime() {
   usePeriodicForceUpdate(500)
+  const t = useT()
+  const offsetHours = useOffsetHours()
   const [value, setValue] = useState(loadInputValue())
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,11 +19,12 @@ export function TimestampToTime() {
   }, [value])
   const numericValue = Number(value)
   const isValidTimestamp = value !== '' && dayjs.unix(numericValue).isValid()
+  const time = dayjs.unix(numericValue).add(offsetHours, 'hour')
   let outputs = [
     // YYYY-MM-DD HH:mm:ss
-    dayjs.unix(numericValue).format('YYYY-MM-DD HH:mm:ss'),
+    time.format('YYYY-MM-DD HH:mm:ss'),
     // Day
-    dayjs.unix(numericValue).format('dddd'),
+    time.format('dddd'),
     // verbose time format in local language, use Intl
     // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
     new Intl.DateTimeFormat(
@@ -30,13 +35,13 @@ export function TimestampToTime() {
         timeStyle: 'long',
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       }
-    ).format(dayjs.unix(numericValue).toDate()),
+    ).format(time.toDate()),
     // relative time
-    formatRelativeTime(dayjs.unix(numericValue).toDate()),
+    formatRelativeTime(time.toDate()),
     // timezone: local
-    dayjs.unix(numericValue).format('YYYY-MM-DDTHH:mm:ssZ'),
+    time.format('YYYY-MM-DDTHH:mm:ssZ'),
     // timezone: UTC
-    dayjs.unix(numericValue).utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+    time.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
   ]
   if (!isValidTimestamp) {
     outputs = outputs.map(() => '')
@@ -44,7 +49,7 @@ export function TimestampToTime() {
 
   return (
     <Wrapper>
-      <h2>Timestamp to Time</h2>
+      <h2>{t.timestampToTimeHeading}</h2>
       <input
         value={value}
         onChange={(e) => {

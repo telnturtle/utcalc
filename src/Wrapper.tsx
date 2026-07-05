@@ -1,22 +1,19 @@
 import { css } from '@emotion/react'
+import { useT } from './util/language'
+import { useOffsetHours } from './util/timeOffset'
 
 const wrapperCss = {
   wrapper: css`
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
     align-items: center;
-    & > h2 {
-      font-size: var(--font-size-heading);
-      margin-top: var(--font-size-heading);
-    }
     & > p {
-      /* font-size: var(--font-size-body); */
       &.italic {
         font-style: italic;
       }
       &.locale-font {
-        font-family: var(--locale-font), 'Noto Serif', serif;
+        font-family: var(--font-serif);
       }
       &.langauge-wrap {
         &:lang(ko-KR) {
@@ -31,18 +28,26 @@ const wrapperCss = {
         }
       }
     }
-    & > input {
-      font-size: var(--font-size-body);
-      font-family: 'Noto Serif';
-    }
     &:not(:last-child) {
       margin-top: 1rem;
     }
   `,
   p: css``,
+  offsetBadge: css`
+    font-size: var(--font-size-caption);
+    color: #646cff;
+    opacity: 0.8;
+  `,
 }
 export function Wrapper({ children }: { children: React.ReactNode }) {
   const csss = wrapperCss
+  const t = useT()
+  const offsetHours = useOffsetHours()
 
-  return <div css={csss.wrapper}>{children}</div>
+  return (
+    <div css={csss.wrapper}>
+      {offsetHours !== 0 && <span css={csss.offsetBadge}>{t.offsetBadge(offsetHours)}</span>}
+      {children}
+    </div>
+  )
 }

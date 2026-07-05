@@ -14,8 +14,6 @@ dayjs.extend(weekOfYear)
 switch (navigator.language) {
   case 'ko':
   case 'ko-KR':
-    document.head.innerHTML +=
-      '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200..900&display=swap">'
     document.documentElement.style.setProperty('--locale-font', 'Noto Serif KR')
     break
   case 'zh':

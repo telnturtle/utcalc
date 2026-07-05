@@ -2,14 +2,48 @@
   --font-size-heading: 21px;
   --font-size-body: 14px;
   --font-size-caption: 12px;
+
+  /*
+   * anthropic-fonts 패키지 로컬 폴백(Georgia, system-ui 등) 앞에
+   * 한국어 웹폰트를 두어 CJK 글리프가 시스템 폰트로 넘어가기 전에 매칭되도록 함.
+   * @see https://www.jsdelivr.com/package/npm/anthropic-fonts
+   */
+  --font-serif:
+    'Anthropic Serif',
+    var(--locale-font, 'Noto Serif KR'),
+    'Noto Serif KR',
+    'Noto Serif',
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  --font-sans:
+    'Anthropic Sans',
+    'Pretendard',
+    'Noto Sans CJK KR',
+    'Noto Sans KR',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  --font-input: var(--font-sans);
+
+  --font-mono:
+    'Anthropic Mono',
+    ui-monospace,
+    'Courier New',
+    Courier,
+    monospace;
 }
 
 :root {
-  font-family: 'Noto Serif', 'Noto Serif KR', serif;
+  font-family: var(--font-serif);
   font-optical-sizing: auto;
-  font-size: var(--font-size-body);
-  font-variation-settings:
-    "wdth" 100;
+  font-style: normal;
+  font-variation-settings: 'wdth' 100;
 
   font-size: var(--font-size-body);
   line-height: 1.4;
@@ -48,6 +82,7 @@ h1 {
   font-weight: 900;
 }
 h2 {
+  font-size: var(--font-size-heading);
   font-weight: 700;
 }
 h3 {
@@ -87,4 +122,11 @@ button:focus-visible {
 
 * {
   margin: 0;
+}
+
+input,
+select,
+textarea {
+  font-size: var(--font-size-body);
+  font-family: var(--font-input);
 }
