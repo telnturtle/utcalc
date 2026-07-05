@@ -1,45 +1,7 @@
-import { css } from '@emotion/react'
+import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 import { useT } from './util/language'
 import { setOffsetHours, useOffsetHours } from './util/timeOffset'
-
-const timeOffsetCss = {
-  wrapper: css`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.4rem 0.8rem;
-    max-width: 100%;
-    box-sizing: border-box;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    transition:
-      background-color 0.2s,
-      border-color 0.2s;
-    &.active {
-      border-color: #646cff;
-      background-color: rgba(100, 108, 255, 0.15);
-    }
-  `,
-  label: css`
-    font-size: var(--font-size-caption);
-    opacity: 0.7;
-  `,
-  input: css`
-    width: 3.5rem;
-    text-align: center;
-  `,
-  button: css`
-    padding: 0.3rem 0.7rem;
-  `,
-  status: css`
-    font-size: var(--font-size-caption);
-    color: #646cff;
-    font-weight: 700;
-  `,
-}
 
 export function TimeOffset() {
   const t = useT()
@@ -62,13 +24,18 @@ export function TimeOffset() {
   }
 
   return (
-    <div css={timeOffsetCss.wrapper} className={active ? 'active' : undefined}>
-      <span css={timeOffsetCss.label}>{t.baseTimeLabel}</span>
-      <button css={timeOffsetCss.button} onClick={() => setOffsetHours(offsetHours - 1)}>
+    <div
+      className={clsx(
+        'flex flex-wrap items-center justify-center gap-2 px-[0.8rem] py-[0.4rem] max-w-full box-border rounded-lg border border-transparent transition-[background-color,border-color] duration-200',
+        active && 'border-[#646cff] bg-[rgba(100,108,255,0.15)]',
+      )}
+    >
+      <span className="text-[length:var(--font-size-caption)] opacity-70">{t.baseTimeLabel}</span>
+      <button className="px-[0.7rem] py-[0.3rem]" onClick={() => setOffsetHours(offsetHours - 1)}>
         -1h
       </button>
       <input
-        css={timeOffsetCss.input}
+        className="w-14 text-center"
         value={text}
         onChange={(e) => setText(e.currentTarget.value)}
         onBlur={(e) => commit(e.currentTarget.value)}
@@ -76,14 +43,16 @@ export function TimeOffset() {
           if (e.key === 'Enter') commit(e.currentTarget.value)
         }}
       />
-      <span css={timeOffsetCss.label}>{t.hourUnitLabel}</span>
-      <button css={timeOffsetCss.button} onClick={() => setOffsetHours(offsetHours + 1)}>
+      <span className="text-[length:var(--font-size-caption)] opacity-70">{t.hourUnitLabel}</span>
+      <button className="px-[0.7rem] py-[0.3rem]" onClick={() => setOffsetHours(offsetHours + 1)}>
         +1h
       </button>
       {active && (
         <>
-          <span css={timeOffsetCss.status}>{t.offsetActive(offsetHours)}</span>
-          <button css={timeOffsetCss.button} onClick={() => setOffsetHours(0)}>
+          <span className="text-[length:var(--font-size-caption)] text-[#646cff] font-bold">
+            {t.offsetActive(offsetHours)}
+          </span>
+          <button className="px-[0.7rem] py-[0.3rem]" onClick={() => setOffsetHours(0)}>
             {t.resetButton}
           </button>
         </>

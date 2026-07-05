@@ -1,36 +1,19 @@
-import { css } from '@emotion/react'
+import clsx from 'clsx'
 import { setLanguage, useLanguage } from './util/language'
-
-const languageToggleCss = {
-  wrapper: css`
-    display: flex;
-    gap: 0.5rem;
-  `,
-  button: css`
-    padding: 0.3rem 0.9rem;
-    opacity: 0.5;
-    &.active {
-      opacity: 1;
-      border-color: #646cff;
-    }
-  `,
-}
 
 export function LanguageToggle() {
   const language = useLanguage()
 
   return (
-    <div css={languageToggleCss.wrapper}>
+    <div className="flex gap-2">
       <button
-        css={languageToggleCss.button}
-        className={language === 'ko' ? 'active' : undefined}
+        className={clsx('px-[0.9rem] py-[0.3rem] opacity-50', language === 'ko' && 'opacity-100 border-[#646cff]')}
         onClick={() => setLanguage('ko')}
       >
         KOR
       </button>
       <button
-        css={languageToggleCss.button}
-        className={language === 'en' ? 'active' : undefined}
+        className={clsx('px-[0.9rem] py-[0.3rem] opacity-50', language === 'en' && 'opacity-100 border-[#646cff]')}
         onClick={() => setLanguage('en')}
       >
         ENG

@@ -20,10 +20,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-
-    /* Emotion */
-    "jsxImportSource": "@emotion/react"
+    "noUncheckedSideEffectImports": true
   },
   "include": ["src"]
 }

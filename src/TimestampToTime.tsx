@@ -1,11 +1,13 @@
 import clsx from 'clsx'
-import { css } from '@emotion/react'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { usePeriodicForceUpdate } from './util/forceUpdate'
 import { useT } from './util/language'
 import { useOffsetHours } from './util/timeOffset'
 import { Wrapper } from './Wrapper'
+
+const LOCALE_OUTPUT_CLASS =
+  '[font-family:var(--font-serif)] [&:lang(ko-KR)]:break-keep [&:lang(ko-KR)]:[overflow-wrap:break-word] [&:lang(zh-CN)]:break-all [&:lang(zh-CN)]:[overflow-wrap:break-word] [&:lang(zh-TW)]:break-all [&:lang(zh-TW)]:[overflow-wrap:break-word] [&:lang(ja-JP)]:break-all [&:lang(ja-JP)]:[overflow-wrap:break-word]'
 
 export function TimestampToTime() {
   usePeriodicForceUpdate(500)
@@ -52,29 +54,24 @@ export function TimestampToTime() {
     <Wrapper>
       <h2>{t.timestampToTimeHeading}</h2>
       <input
-        css={css`
-          width: 100%;
-          max-width: 36rem;
-          box-sizing: border-box;
-        `}
+        className="w-full max-w-[36rem] box-border"
         value={value}
         onChange={(e) => {
           setValue(e.currentTarget.value)
         }}
       />
-      {outputs.map((output, index) => (
-        <p
-          key={index}
-          className={clsx({
-            italic: true,
-            'locale-font': [2, 3].includes(index),
-            'langauge-wrap': [2, 3].includes(index),
-          })}
-          {...([2, 3].includes(index) ? { lang: navigator.language } : {})}
-        >
-          {output}
-        </p>
-      ))}
+      {outputs.map((output, index) => {
+        const isLocaleOutput = [2, 3].includes(index)
+        return (
+          <p
+            key={index}
+            className={clsx('italic', isLocaleOutput && LOCALE_OUTPUT_CLASS)}
+            {...(isLocaleOutput ? { lang: navigator.language } : {})}
+          >
+            {output}
+          </p>
+        )
+      })}
     </Wrapper>
   )
 }

@@ -1,4 +1,3 @@
-import { css } from '@emotion/react'
 import './App.css'
 import { CurrentUnixTimestamp } from './CurrentTimestamp'
 import { LanguageToggle } from './LanguageToggle'
@@ -13,12 +12,7 @@ function App() {
   return (
     <>
       <header>
-        <h1
-          css={css`
-            margin-top: calc(1 * var(--font-size-heading));
-            margin-bottom: calc(1 / 2 * var(--font-size-heading));
-          `}
-        >
+        <h1 className="mt-[calc(1*var(--font-size-heading))] mb-[calc(0.5*var(--font-size-heading))]">
           {t.appTitle}
         </h1>
       </header>
@@ -27,25 +21,10 @@ function App() {
       <StartOf />
       <TimestampToTime />
       {/* 메인 콘텐츠 하단 여백(기존 footer 간격)을 유지하고, 그 아래에 언어 전환 버튼을 배치 */}
-      <div
-        css={css`
-          margin-top: calc(2 * var(--font-size-heading));
-          display: flex;
-          justify-content: center;
-        `}
-      >
+      <div className="mt-[calc(2*var(--font-size-heading))] flex justify-center">
         <LanguageToggle />
       </div>
-      <footer
-        css={css`
-          margin-top: calc(1 * var(--font-size-heading));
-          margin-bottom: calc(1 * var(--font-size-heading));
-          font-weight: 100;
-          & * {
-            font-weight: 100;
-          }
-        `}
-      >
+      <footer className="mt-[calc(1*var(--font-size-heading))] mb-[calc(1*var(--font-size-heading))] font-thin [&_*]:font-thin">
         {/* credit */}
         <p>
           Made with <span style={{ opacity: 0.5 }}>❤️</span> by{' '}

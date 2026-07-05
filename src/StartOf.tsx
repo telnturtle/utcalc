@@ -1,4 +1,3 @@
-import { css } from '@emotion/react'
 import dayjs, { Dayjs } from 'dayjs'
 import { useState } from 'react'
 import { Wrapper } from './Wrapper'
@@ -6,89 +5,25 @@ import { usePeriodicForceUpdate } from './util/forceUpdate'
 import { useT } from './util/language'
 import { useOffsetHours } from './util/timeOffset'
 
-const MOBILE_BREAKPOINT = '640px'
+const TABLE_CLASS =
+  'w-full [&_th]:text-left [&_th]:font-light [&_td]:font-bold [&_td]:tabular-nums max-[640px]:max-w-[36rem] max-[640px]:[&_thead]:hidden max-[640px]:[&_tbody]:flex max-[640px]:[&_tbody]:flex-col max-[640px]:[&_tbody]:gap-3'
 
-const dateInputCss = {
-  wrapper: css`
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
+const TABLE_ROW_CLASS =
+  'max-[640px]:flex max-[640px]:flex-col max-[640px]:gap-2 max-[640px]:p-3 max-[640px]:rounded-lg max-[640px]:border max-[640px]:border-[rgba(128,128,128,0.25)] max-[640px]:bg-[rgba(128,128,128,0.05)]'
 
-    @media (max-width: ${MOBILE_BREAKPOINT}) {
-      max-width: 36rem;
-    }
-  `,
-  input: css`
-    flex: 1;
-    min-width: 0;
-  `,
-  button: css`
-    flex-shrink: 0;
-    padding: 0.3rem 0.9rem;
-    &:disabled {
-      opacity: 0.3;
-      cursor: default;
-    }
-  `,
-}
+const MOBILE_CELL_CLASS =
+  'max-[640px]:block max-[640px]:w-full max-[640px]:p-0'
 
-const tableCss = css`
-  width: 100%;
+const MOBILE_TD_CLASS =
+  'max-[640px]:flex max-[640px]:justify-between max-[640px]:items-center max-[640px]:gap-3 max-[640px]:w-full max-[640px]:p-0 max-[640px]:text-[length:var(--font-size-caption)] max-[640px]:before:content-[attr(data-label)] max-[640px]:before:font-light max-[640px]:before:shrink-0'
 
-  th {
-    text-align: left;
-    font-weight: 300;
-  }
-  td {
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-  }
+const MOBILE_TD_VALUE_CLASS = 'max-[640px]:text-right max-[640px]:[overflow-wrap:anywhere]'
 
-  @media (max-width: ${MOBILE_BREAKPOINT}) {
-    max-width: 36rem;
-    thead {
-      display: none;
-    }
-    tbody {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    tr {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      padding: 0.75rem;
-      border-radius: 8px;
-      border: 1px solid rgba(128, 128, 128, 0.25);
-      background: rgba(128, 128, 128, 0.05);
-    }
-    th,
-    td {
-      display: block;
-      width: 100%;
-      padding: 0;
-    }
-    td {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: var(--font-size-caption);
+const NAV_BUTTON_CLASS =
+  'bg-transparent border border-transparent px-2 py-[0.1rem] leading-[1.4] rounded-md opacity-50 shrink-0 transition-[opacity,background-color] duration-150 ease-in-out hover:opacity-100 hover:bg-[rgba(100,108,255,0.15)]'
 
-      &::before {
-        content: attr(data-label);
-        font-weight: 300;
-        flex-shrink: 0;
-      }
-    }
-    td span {
-      text-align: right;
-      overflow-wrap: anywhere;
-    }
-  }
-`
+const MONTH_SNAP_BUTTON_CLASS =
+  'bg-transparent border border-[rgba(128,128,128,0.4)] px-3 py-1 text-[length:var(--font-size-caption)] rounded-full opacity-70 transition-[opacity,border-color] duration-150 ease-in-out hover:opacity-100 hover:border-[#646cff]'
 
 export function StartOf() {
   usePeriodicForceUpdate(500)
@@ -104,10 +39,10 @@ export function StartOf() {
   return (
     <Wrapper>
       <h2>{t.startOfHeading}</h2>
-      <div css={dateInputCss.wrapper}>
+      <div className="flex items-center gap-2 w-full max-[640px]:max-w-[36rem]">
         <input
           type="date"
-          css={dateInputCss.input}
+          className="flex-1 min-w-0"
           value={selectedDate.format('YYYY-MM-DD')}
           onChange={(e) => {
             if (e.currentTarget.value) {
@@ -115,11 +50,15 @@ export function StartOf() {
             }
           }}
         />
-        <button css={dateInputCss.button} disabled={isLive} onClick={() => setManualDate(null)}>
+        <button
+          className="shrink-0 px-[0.9rem] py-[0.3rem] disabled:opacity-30 disabled:cursor-default"
+          disabled={isLive}
+          onClick={() => setManualDate(null)}
+        >
           {t.today}
         </button>
       </div>
-      <table css={tableCss}>
+      <table className={TABLE_CLASS}>
         <thead>
           <tr>
             <th>{t.unitColumn}</th>
@@ -160,120 +99,38 @@ type ControllerProps = UnitProps & {
   unit: 'year' | 'month' | 'week' | 'day'
   format: string
 }
-const controllerCss = {
-  unitBlock: css`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-
-    @media (max-width: ${MOBILE_BREAKPOINT}) {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  `,
-  cell: css`
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-
-    @media (max-width: ${MOBILE_BREAKPOINT}) {
-      justify-content: center;
-    }
-  `,
-  navButton: css`
-    background: transparent;
-    border: 1px solid transparent;
-    padding: 0.1rem 0.5rem;
-    line-height: 1.4;
-    border-radius: 6px;
-    opacity: 0.5;
-    flex-shrink: 0;
-    transition:
-      opacity 0.15s ease,
-      background-color 0.15s ease;
-    &:hover {
-      opacity: 1;
-      background-color: rgba(100, 108, 255, 0.15);
-    }
-  `,
-  dateLabel: css`
-    display: inline-block;
-    min-width: 6.5em;
-    text-align: center;
-
-    @media (max-width: ${MOBILE_BREAKPOINT}) {
-      min-width: 0;
-    }
-  `,
-  monthSnapGroup: css`
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    margin-left: 0.3rem;
-    padding-left: 0.6rem;
-    border-left: 1px solid rgba(128, 128, 128, 0.35);
-
-    @media (max-width: ${MOBILE_BREAKPOINT}) {
-      width: 100%;
-      margin-left: 0;
-      padding-left: 0;
-      padding-top: 0.5rem;
-      border-left: none;
-      border-top: 1px solid rgba(128, 128, 128, 0.25);
-      justify-content: center;
-    }
-  `,
-  monthSnapButton: css`
-    background: transparent;
-    border: 1px solid rgba(128, 128, 128, 0.4);
-    padding: 0.25rem 0.75rem;
-    font-size: var(--font-size-caption);
-    border-radius: 999px;
-    opacity: 0.7;
-    transition:
-      opacity 0.15s ease,
-      border-color 0.15s ease;
-    &:hover {
-      opacity: 1;
-      border-color: #646cff;
-    }
-  `,
-}
 function Controller({ unit, format, date, onChange }: ControllerProps) {
-  const csss = controllerCss
   const t = useT()
   return (
-    <tr>
-      <th>
-        <div css={csss.unitBlock}>
-          <div css={csss.cell}>
-            <button css={csss.navButton} onClick={() => onChange(date.add(-1, unit))}>
+    <tr className={TABLE_ROW_CLASS}>
+      <th className={MOBILE_CELL_CLASS}>
+        <div className="flex flex-row items-center flex-wrap gap-[0.35rem] max-[640px]:flex-col max-[640px]:items-stretch">
+          <div className="flex items-center gap-[0.35rem] max-[640px]:justify-center">
+            <button className={NAV_BUTTON_CLASS} onClick={() => onChange(date.add(-1, unit))}>
               ←
             </button>
-            <span css={csss.dateLabel}>{date.format(format)}</span>
-            <button css={csss.navButton} onClick={() => onChange(date.add(1, unit))}>
+            <span className="inline-block min-w-[6.5em] text-center max-[640px]:min-w-0">{date.format(format)}</span>
+            <button className={NAV_BUTTON_CLASS} onClick={() => onChange(date.add(1, unit))}>
               →
             </button>
           </div>
           {unit === 'month' && (
-            <div css={csss.monthSnapGroup}>
-              <button css={csss.monthSnapButton} onClick={() => onChange(date.startOf('month'))}>
+            <div className="flex items-center gap-[0.3rem] ml-[0.3rem] pl-[0.6rem] border-l border-[rgba(128,128,128,0.35)] max-[640px]:w-full max-[640px]:ml-0 max-[640px]:pl-0 max-[640px]:pt-2 max-[640px]:border-l-0 max-[640px]:border-t max-[640px]:border-[rgba(128,128,128,0.25)] max-[640px]:justify-center">
+              <button className={MONTH_SNAP_BUTTON_CLASS} onClick={() => onChange(date.startOf('month'))}>
                 {t.startOfMonthButton}
               </button>
-              <button css={csss.monthSnapButton} onClick={() => onChange(date.endOf('month'))}>
+              <button className={MONTH_SNAP_BUTTON_CLASS} onClick={() => onChange(date.endOf('month'))}>
                 {t.endOfMonthButton}
               </button>
             </div>
           )}
         </div>
       </th>
-      <td data-label={t.startOfColumn}>
-        <span>{date.startOf(unit).unix()}</span>
+      <td data-label={t.startOfColumn} className={MOBILE_TD_CLASS}>
+        <span className={MOBILE_TD_VALUE_CLASS}>{date.startOf(unit).unix()}</span>
       </td>
-      <td data-label={t.endOfColumn}>
-        <span>{date.endOf(unit).unix()}</span>
+      <td data-label={t.endOfColumn} className={MOBILE_TD_CLASS}>
+        <span className={MOBILE_TD_VALUE_CLASS}>{date.endOf(unit).unix()}</span>
       </td>
     </tr>
   )

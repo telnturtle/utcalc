@@ -1,65 +1,9 @@
-import { css } from '@emotion/react'
 import dayjs from 'dayjs'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { usePeriodicForceUpdate } from './util/forceUpdate'
 import { useT } from './util/language'
 import { useOffsetHours } from './util/timeOffset'
 import { Wrapper } from './Wrapper'
-
-const infoRowCss = css`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  width: 100%;
-  max-width: 36rem;
-  font-size: var(--font-size-body);
-  line-height: 1.4;
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.35rem;
-  }
-`
-
-const labelCss = css`
-  font-weight: 400;
-  text-align: left;
-  flex-shrink: 0;
-`
-
-const valueGroupCss = css`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-left: auto;
-  min-width: 0;
-`
-
-const valueCss = css`
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-`
-
-const copyButtonCss = css`
-  position: relative;
-  flex-shrink: 0;
-  padding: 0.3rem 0.7rem;
-  font-size: var(--font-size-caption);
-  &.copied::after {
-    content: attr(data-copied-label);
-    color: #646cff;
-    font-size: 0.8em;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 0.2rem;
-    white-space: nowrap;
-  }
-`
 
 type InfoRowProps = {
   label: string
@@ -69,10 +13,10 @@ type InfoRowProps = {
 
 function InfoRow({ label, value, trailing }: InfoRowProps) {
   return (
-    <div css={infoRowCss}>
-      <span css={labelCss}>{label}</span>
-      <div css={valueGroupCss}>
-        <span css={valueCss}>{value}</span>
+    <div className="flex items-center justify-between gap-4 w-full max-w-[36rem] text-[length:var(--font-size-body)] leading-[1.4] max-[480px]:flex-col max-[480px]:items-start max-[480px]:gap-[0.35rem]">
+      <span className="font-normal text-left shrink-0">{label}</span>
+      <div className="flex items-center gap-2 ml-auto min-w-0">
+        <span className="font-bold tabular-nums text-right">{value}</span>
         {trailing}
       </div>
     </div>
@@ -91,18 +35,17 @@ export function CurrentUnixTimestamp() {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
   const utcOffset = dayjs().format('Z')
 
-  const copyButtonEl = useRef<HTMLButtonElement>(null)
-
+  const [copied, setCopied] = useState(false)
   const copiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleClickButton = () => {
     navigator.clipboard.writeText(currentUnixTimestamp.toString())
-    copyButtonEl.current?.classList.add('copied')
+    setCopied(true)
     if (copiedTimerRef.current) {
       clearTimeout(copiedTimerRef.current)
     }
     copiedTimerRef.current = setTimeout(() => {
-      copyButtonEl.current?.classList.remove('copied')
+      setCopied(false)
     }, 2000)
   }
 
@@ -113,12 +56,15 @@ export function CurrentUnixTimestamp() {
         value={String(currentUnixTimestamp)}
         trailing={
           <button
-            ref={copyButtonEl}
             onClick={handleClickButton}
-            css={copyButtonCss}
-            data-copied-label={t.copiedLabel}
+            className="relative shrink-0 px-[0.7rem] py-[0.3rem] text-[length:var(--font-size-caption)]"
           >
             {t.copyButton}
+            {copied && (
+              <span className="absolute top-full left-1/2 -translate-x-1/2 mt-[0.2rem] whitespace-nowrap text-[#646cff] text-[0.8em]">
+                {t.copiedLabel}
+              </span>
+            )}
           </button>
         }
       />

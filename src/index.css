@@ -1,138 +1,142 @@
-:root {
-  --font-size-heading: 21px;
-  --font-size-body: 14px;
-  --font-size-caption: 12px;
+@import 'tailwindcss';
 
-  /*
-   * anthropic-fonts 패키지 로컬 폴백(Georgia, system-ui 등) 앞에
-   * 한국어 웹폰트를 두어 CJK 글리프가 시스템 폰트로 넘어가기 전에 매칭되도록 함.
-   * @see https://www.jsdelivr.com/package/npm/anthropic-fonts
-   */
-  --font-serif:
-    'Anthropic Serif',
-    var(--locale-font, 'Noto Serif KR'),
-    'Noto Serif KR',
-    'Noto Serif',
-    Georgia,
-    'Times New Roman',
-    serif;
-
-  --font-sans:
-    'Anthropic Sans',
-    'Pretendard',
-    'Noto Sans CJK KR',
-    'Noto Sans KR',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Helvetica,
-    Arial,
-    sans-serif;
-
-  --font-input: var(--font-sans);
-
-  --font-mono:
-    'Anthropic Mono',
-    ui-monospace,
-    'Courier New',
-    Courier,
-    monospace;
-}
-
-:root {
-  font-family: var(--font-serif);
-  font-optical-sizing: auto;
-  font-style: normal;
-  font-variation-settings: 'wdth' 100;
-
-  font-size: var(--font-size-body);
-  line-height: 1.4;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100svh;
-  overflow-x: clip;
-}
-
-h1 {
-  font-size: 2.5rem;
-  line-height: 1.1;
-  font-weight: 900;
-}
-@media (max-width: 640px) {
-  h1 {
-    font-size: 1.75rem;
-  }
-}
-h2 {
-  font-size: var(--font-size-heading);
-  font-weight: 700;
-}
-h3 {
-  font-weight: 500;
-}
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+@layer base {
   :root {
-    color: #444444;
-    background-color: rgb(255 255 255 / 1);
+    --font-size-heading: 21px;
+    --font-size-body: 14px;
+    --font-size-caption: 12px;
+
+    /*
+     * anthropic-fonts 패키지 로컬 폴백(Georgia, system-ui 등) 앞에
+     * 한국어 웹폰트를 두어 CJK 글리프가 시스템 폰트로 넘어가기 전에 매칭되도록 함.
+     * @see https://www.jsdelivr.com/package/npm/anthropic-fonts
+     */
+    --font-serif:
+      'Anthropic Serif',
+      var(--locale-font, 'Noto Serif KR'),
+      'Noto Serif KR',
+      'Noto Serif',
+      Georgia,
+      'Times New Roman',
+      serif;
+
+    --font-sans:
+      'Anthropic Sans',
+      'Pretendard',
+      'Noto Sans CJK KR',
+      'Noto Sans KR',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Helvetica,
+      Arial,
+      sans-serif;
+
+    --font-input: var(--font-sans);
+
+    --font-mono:
+      'Anthropic Mono',
+      ui-monospace,
+      'Courier New',
+      Courier,
+      monospace;
+  }
+
+  :root {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: 'wdth' 100;
+
+    font-size: var(--font-size-body);
+    line-height: 1.4;
+    font-weight: 400;
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
   }
   a:hover {
-    color: #747bff;
+    color: #535bf2;
+  }
+
+  body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100svh;
+    overflow-x: clip;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    font-weight: 900;
+  }
+  @media (max-width: 640px) {
+    h1 {
+      font-size: 1.75rem;
+    }
+  }
+  h2 {
+    font-size: var(--font-size-heading);
+    font-weight: 700;
+  }
+  h3 {
+    font-weight: 500;
   }
   button {
-    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
   }
-}
+  button:hover {
+    border-color: #646cff;
+  }
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
 
-* {
-  margin: 0;
-}
+  @media (prefers-color-scheme: light) {
+    :root {
+      color: #444444;
+      background-color: rgb(255 255 255 / 1);
+    }
+    a:hover {
+      color: #747bff;
+    }
+    button {
+      background-color: #f9f9f9;
+    }
+  }
 
-input,
-select,
-textarea {
-  font-size: var(--font-size-body);
-  font-family: var(--font-input);
+  * {
+    margin: 0;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: var(--font-size-body);
+    font-family: var(--font-input);
+  }
 }
