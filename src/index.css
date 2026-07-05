@@ -7,7 +7,7 @@
 :root {
   font-family: 'Noto Serif', 'Noto Serif KR', serif;
   font-optical-sizing: auto;
-  font-style: var(--font-size_body);
+  font-size: var(--font-size-body);
   font-variation-settings:
     "wdth" 100;
 

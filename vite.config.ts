@@ -5,7 +5,7 @@ import packageJson from './package.json'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: 'utcalc',
+  base: '/utcalc/',
   define: {
     'import.meta.env.PACKAGE_VERSION': JSON.stringify(packageJson.version),
   },

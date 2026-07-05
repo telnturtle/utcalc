@@ -30,15 +30,15 @@ export function CurrentUnixTimestamp() {
 
   const copyButtonEl = useRef<HTMLButtonElement>(null)
 
-  const copiedTimer: { timer: undefined | number } = {
-    timer: undefined,
-  }
+  const copiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleClickButton = () => {
     navigator.clipboard.writeText(currentUnixTimestamp.toString())
     copyButtonEl.current?.classList.add('copied')
-    clearTimeout(copiedTimer.timer)
-    copiedTimer.timer = setTimeout(() => {
+    if (copiedTimerRef.current) {
+      clearTimeout(copiedTimerRef.current)
+    }
+    copiedTimerRef.current = setTimeout(() => {
       copyButtonEl.current?.classList.remove('copied')
     }, 2000)
   }

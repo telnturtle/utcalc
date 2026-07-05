@@ -1,20 +1,25 @@
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usePeriodicForceUpdate } from './util/forceUpdate'
 import { Wrapper } from './Wrapper'
 
 export function TimestampToTime() {
   usePeriodicForceUpdate(500)
   const [value, setValue] = useState(loadInputValue())
-  setTimeout(() => {
-    storeInputValue(value)
-  }, 0)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      storeInputValue(value)
+    }, 0)
+    return () => clearTimeout(timer)
+  }, [value])
+  const numericValue = Number(value)
+  const isValidTimestamp = value !== '' && dayjs.unix(numericValue).isValid()
   let outputs = [
     // YYYY-MM-DD HH:mm:ss
-    dayjs.unix(Number(value)).format('YYYY-MM-DD HH:mm:ss'),
+    dayjs.unix(numericValue).format('YYYY-MM-DD HH:mm:ss'),
     // Day
-    dayjs.unix(Number(value)).format('dddd'),
+    dayjs.unix(numericValue).format('dddd'),
     // verbose time format in local language, use Intl
     // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
     new Intl.DateTimeFormat(
@@ -25,15 +30,15 @@ export function TimestampToTime() {
         timeStyle: 'long',
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       }
-    ).format(dayjs.unix(Number(value)).toDate()),
+    ).format(dayjs.unix(numericValue).toDate()),
     // relative time
-    formatRelativeTime(dayjs.unix(Number(value)).toDate()),
+    formatRelativeTime(dayjs.unix(numericValue).toDate()),
     // timezone: local
-    dayjs.unix(Number(value)).format('YYYY-MM-DDTHH:mm:ssZ'),
+    dayjs.unix(numericValue).format('YYYY-MM-DDTHH:mm:ssZ'),
     // timezone: UTC
-    dayjs.unix(Number(value)).utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+    dayjs.unix(numericValue).utc().format('YYYY-MM-DDTHH:mm:ssZ'),
   ]
-  if (value === '') {
+  if (!isValidTimestamp) {
     outputs = outputs.map(() => '')
   }
 
@@ -43,9 +48,7 @@ export function TimestampToTime() {
       <input
         value={value}
         onChange={(e) => {
-          if (dayjs.unix(Number(e.currentTarget.value)).isValid()) {
-            setValue(e.currentTarget.value)
-          }
+          setValue(e.currentTarget.value)
         }}
       />
       {outputs.map((output, index) => (

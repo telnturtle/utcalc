@@ -35,7 +35,7 @@ const wrapperCss = {
       font-size: var(--font-size-body);
       font-family: 'Noto Serif';
     }
-    &:not(last-child) {
+    &:not(:last-child) {
       margin-top: 1rem;
     }
   `,
