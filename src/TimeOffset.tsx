@@ -6,9 +6,13 @@ import { setOffsetHours, useOffsetHours } from './util/timeOffset'
 const timeOffsetCss = {
   wrapper: css`
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     padding: 0.4rem 0.8rem;
+    max-width: 100%;
+    box-sizing: border-box;
     border-radius: 8px;
     border: 1px solid transparent;
     transition:

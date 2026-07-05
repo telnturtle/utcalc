@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { css } from '@emotion/react'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { usePeriodicForceUpdate } from './util/forceUpdate'
@@ -51,6 +52,11 @@ export function TimestampToTime() {
     <Wrapper>
       <h2>{t.timestampToTimeHeading}</h2>
       <input
+        css={css`
+          width: 100%;
+          max-width: 36rem;
+          box-sizing: border-box;
+        `}
         value={value}
         onChange={(e) => {
           setValue(e.currentTarget.value)

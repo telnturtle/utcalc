@@ -74,12 +74,18 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100svh;
+  overflow-x: clip;
 }
 
 h1 {
   font-size: 2.5rem;
   line-height: 1.1;
   font-weight: 900;
+}
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.75rem;
+  }
 }
 h2 {
   font-size: var(--font-size-heading);

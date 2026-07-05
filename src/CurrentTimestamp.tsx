@@ -15,6 +15,12 @@ const infoRowCss = css`
   max-width: 36rem;
   font-size: var(--font-size-body);
   line-height: 1.4;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
 `
 
 const labelCss = css`

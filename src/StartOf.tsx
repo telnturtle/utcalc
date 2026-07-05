@@ -6,17 +6,25 @@ import { usePeriodicForceUpdate } from './util/forceUpdate'
 import { useT } from './util/language'
 import { useOffsetHours } from './util/timeOffset'
 
+const MOBILE_BREAKPOINT = '640px'
+
 const dateInputCss = {
   wrapper: css`
     display: flex;
     align-items: center;
     gap: 0.5rem;
     width: 100%;
+
+    @media (max-width: ${MOBILE_BREAKPOINT}) {
+      max-width: 36rem;
+    }
   `,
   input: css`
     flex: 1;
+    min-width: 0;
   `,
   button: css`
+    flex-shrink: 0;
     padding: 0.3rem 0.9rem;
     &:disabled {
       opacity: 0.3;
@@ -24,6 +32,63 @@ const dateInputCss = {
     }
   `,
 }
+
+const tableCss = css`
+  width: 100%;
+
+  th {
+    text-align: left;
+    font-weight: 300;
+  }
+  td {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: ${MOBILE_BREAKPOINT}) {
+    max-width: 36rem;
+    thead {
+      display: none;
+    }
+    tbody {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    tr {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(128, 128, 128, 0.25);
+      background: rgba(128, 128, 128, 0.05);
+    }
+    th,
+    td {
+      display: block;
+      width: 100%;
+      padding: 0;
+    }
+    td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: var(--font-size-caption);
+
+      &::before {
+        content: attr(data-label);
+        font-weight: 300;
+        flex-shrink: 0;
+      }
+    }
+    td span {
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+  }
+`
 
 export function StartOf() {
   usePeriodicForceUpdate(500)
@@ -54,18 +119,7 @@ export function StartOf() {
           {t.today}
         </button>
       </div>
-      <table
-        css={css`
-          width: 100%;
-          th {
-            text-align: left;
-            font-weight: 300;
-          }
-          td {
-            font-weight: 700;
-          }
-        `}
-      >
+      <table css={tableCss}>
         <thead>
           <tr>
             <th>{t.unitColumn}</th>
@@ -107,10 +161,26 @@ type ControllerProps = UnitProps & {
   format: string
 }
 const controllerCss = {
+  unitBlock: css`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+
+    @media (max-width: ${MOBILE_BREAKPOINT}) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  `,
   cell: css`
     display: flex;
     align-items: center;
     gap: 0.35rem;
+
+    @media (max-width: ${MOBILE_BREAKPOINT}) {
+      justify-content: center;
+    }
   `,
   navButton: css`
     background: transparent;
@@ -119,6 +189,7 @@ const controllerCss = {
     line-height: 1.4;
     border-radius: 6px;
     opacity: 0.5;
+    flex-shrink: 0;
     transition:
       opacity 0.15s ease,
       background-color 0.15s ease;
@@ -130,6 +201,11 @@ const controllerCss = {
   dateLabel: css`
     display: inline-block;
     min-width: 6.5em;
+    text-align: center;
+
+    @media (max-width: ${MOBILE_BREAKPOINT}) {
+      min-width: 0;
+    }
   `,
   monthSnapGroup: css`
     display: flex;
@@ -138,11 +214,21 @@ const controllerCss = {
     margin-left: 0.3rem;
     padding-left: 0.6rem;
     border-left: 1px solid rgba(128, 128, 128, 0.35);
+
+    @media (max-width: ${MOBILE_BREAKPOINT}) {
+      width: 100%;
+      margin-left: 0;
+      padding-left: 0;
+      padding-top: 0.5rem;
+      border-left: none;
+      border-top: 1px solid rgba(128, 128, 128, 0.25);
+      justify-content: center;
+    }
   `,
   monthSnapButton: css`
     background: transparent;
     border: 1px solid rgba(128, 128, 128, 0.4);
-    padding: 0.1rem 0.55rem;
+    padding: 0.25rem 0.75rem;
     font-size: var(--font-size-caption);
     border-radius: 999px;
     opacity: 0.7;
@@ -161,20 +247,16 @@ function Controller({ unit, format, date, onChange }: ControllerProps) {
   return (
     <tr>
       <th>
-        <div css={csss.cell}>
-          {/* the previous button, use symbol or emoji */}
-          <button css={csss.navButton} onClick={() => onChange(date.add(-1, unit))}>
-            {/* ⬅️←⬅🠜 */}
-            {/* 🠈 */}
-            ←
-          </button>
-          <span css={csss.dateLabel}>{date.format(format)}</span>
-          {/* the next button, use symbol or emoji */}
-          <button css={csss.navButton} onClick={() => onChange(date.add(1, unit))}>
-            {/* ➡️→➡🠞 */}
-            {/* 🠊 */}
-            →
-          </button>
+        <div css={csss.unitBlock}>
+          <div css={csss.cell}>
+            <button css={csss.navButton} onClick={() => onChange(date.add(-1, unit))}>
+              ←
+            </button>
+            <span css={csss.dateLabel}>{date.format(format)}</span>
+            <button css={csss.navButton} onClick={() => onChange(date.add(1, unit))}>
+              →
+            </button>
+          </div>
           {unit === 'month' && (
             <div css={csss.monthSnapGroup}>
               <button css={csss.monthSnapButton} onClick={() => onChange(date.startOf('month'))}>
@@ -187,8 +269,12 @@ function Controller({ unit, format, date, onChange }: ControllerProps) {
           )}
         </div>
       </th>
-      <td>{date.startOf(unit).unix()}</td>
-      <td>{date.endOf(unit).unix()}</td>
+      <td data-label={t.startOfColumn}>
+        <span>{date.startOf(unit).unix()}</span>
+      </td>
+      <td data-label={t.endOfColumn}>
+        <span>{date.endOf(unit).unix()}</span>
+      </td>
     </tr>
   )
 }
